@@ -1,3 +1,6 @@
+![build](https://github.com/Niades/y2be-player/actions/workflows/main.yml/badge.svg)
+
+
 # y2be-player
 
 ### Simple YouTube Player
