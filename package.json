@@ -1,7 +1,7 @@
 {
   "name": "y2be-player",
   "description": "Simple, robust YouTube Iframe Player API",
-  "version": "3.5.1",
+  "version": "3.5.2",
   "authors": [
     {
       "name": "Feross Aboukhadijeh",
