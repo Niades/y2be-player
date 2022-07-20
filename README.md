@@ -1,9 +1,17 @@
 ![build](https://github.com/Niades/y2be-player/actions/workflows/main.yml/badge.svg)
+![coverage](./coverage/badge-lines.svg)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 
 # y2be-player
 
 ### Simple YouTube Player
+
+This package is based on [ferros/yt-player](https://github.com/feross/yt-player). The key differences are:
+  - Using Rollup to bundle the package as a ES module with a named export
+  - Tests
+  - `lint-staged` uses ESLint to lint the source code and `prettier` to auto-format it
+  - `getVideoTitle()` method added
 
 ## Features
 
@@ -23,8 +31,8 @@
 ## Usage
 
 ```js
-const YTPlayer = require("yt-player");
-const player = new YTPlayer("#player");
+import { YouTubePlayer } from 'y2be-player';
+const player = new YouTubePlayer("#player");
 
 player.load("GKSRyLdjsPA");
 player.setVolume(100);
@@ -36,7 +44,7 @@ player.on("playing", () => {
 
 ## API
 
-### `player = new YTPlayer(element, [opts])`
+### `player = new YouTubePlayer(element, [opts])`
 
 Create a new YouTube player. The player will take the place of the HTML element
 `element`. Alternatively, `element` can be a selector string, which will be passed
