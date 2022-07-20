@@ -248,6 +248,10 @@ Returns the state of the player. Possible values are: `'unstarted'`, `'ended'`,
 
 Returns the elapsed time in seconds since the video started playing.
 
+- `player.getVideoTitle()`
+
+Returns the video title.
+
 - `player.destroy()`
 
 Removes the `<iframe>` containing the player and cleans up all resources.
