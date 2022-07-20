@@ -17,6 +17,7 @@
     "url": "https://github.com/Niades/y2be-player/issues"
   },
   "dependencies": {
+    "jest-coverage-badges": "^1.1.2",
     "load-script2": "^2.0.1"
   },
   "devDependencies": {
@@ -42,8 +43,8 @@
     "youtube api",
     "youtube iframe api",
     "iframe api",
-    "yt player",
-    "yt-player",
+    "y2be player",
+    "y2be-player",
     "youtube embed"
   ],
   "license": "MIT",
@@ -57,7 +58,8 @@
     "prepare": "husky install",
     "build": "rollup -c rollup.config.js",
     "test": "jest",
-    "test:coverage": "jest --collect-coverage"
+    "test:coverage": "jest --collect-coverage",
+    "test:badges": "yarn test:coverage && jest-coverage-badges"
   },
   "funding": [
     {

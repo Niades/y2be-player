@@ -1,9 +1,18 @@
 ![build](https://github.com/Niades/y2be-player/actions/workflows/main.yml/badge.svg)
+![coverage](./coverage/badge-lines.svg)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 
 # y2be-player
 
 ### Simple YouTube Player
+
+This package is based on [ferros/yt-player](https://github.com/feross/yt-player). The key differences are:
+  - Using Rollup to bundle the package as a ES module with a named export
+  - Minified version of the package is available at `dist/y2be-player.min.js`
+  - Tests
+  - `lint-staged` uses ESLint to lint the source code and `prettier` to auto-format it
+  - `getVideoTitle()` method added
 
 ## Features
 
@@ -23,43 +32,42 @@
 ## Usage
 
 ```js
-const YTPlayer = require("yt-player");
-const player = new YTPlayer("#player");
+import { YouTubePlayer } from 'y2be-player'
 
-player.load("GKSRyLdjsPA");
-player.setVolume(100);
-
-player.on("playing", () => {
-  console.log(player.getDuration()); // => 351.521
-});
+const player = new YouTubePlayer('#player')
+player.on('playing', () => {
+  console.log(player.getDuration())
+})
+player.load('dQw4w9WgXcQ') // Rick Astley - Never Gonna Give You Up (Official Music Video)
+player.setVolume(100)
 ```
 
 ## API
 
-### `player = new YTPlayer(element, [opts])`
+- `new YouTubePlayer(element, [opts])`
 
-Create a new YouTube player. The player will take the place of the HTML element
-`element`. Alternatively, `element` can be a selector string, which will be passed
-to `document.querySelector()`.
+Create a new YouTube player. The player will take the place of the HTML element `element`. Alternatively, `element` can be a selector string, which will be passed to `document.querySelector()`.
 
 Examples: `#player`, `.youtube-player`, or a DOM node.
 
+### `opts` parameter
+
 Optionally, provide an options object `opts` to customize the player.
 
-#### `opts.width` (number)
+- `opts.width` (number)
 
 This parameter indicates the width of the player.
 
-#### `opts.height` (number)
+- `opts.height` (number)
 
 This parameter indicates the height of the player.
 
-#### `opts.autoplay` (boolean)
+- `opts.autoplay` (boolean)
 
 This parameter indicates whether the initial video will automatically start to play
 when the player loads. The default value is `false`.
 
-#### `opts.captions` (string/boolean)
+- `opts.captions` (string/boolean)
 
 This parameter indicates the language of the closed captions that should be
 shown. The default behavior is based on user preference. The parameter value is
@@ -68,40 +76,40 @@ code](http://www.loc.gov/standards/iso639-2/php/code_list.php) or a fully
 specified locale. Or, set to `false` to force captions to be disabled, ignoring
 the user preference.
 
-#### `opts.controls` (boolean)
+- `opts.controls` (boolean)
 
 This parameter indicates whether the video player controls are displayed. The
 default value is `true`.
 
-#### `opts.keyboard` (boolean)
+- `opts.keyboard` (boolean)
 
 This parameter indicates whether the player will respond to keyboard shortcuts. The
 default value is `true`.
 
-#### `opts.fullscreen` (boolean)
+- `opts.fullscreen` (boolean)
 
 This parameter indicates whether the player will show a fullscreen button. The
 default value is `true`.
 
-#### `opts.annotations` (boolean)
+- `opts.annotations` (boolean)
 
 This parameter indicates whether the player will show video annotations. The
 default value is `true`.
 
-#### `opts.modestBranding` (boolean)
+- `opts.modestBranding` (boolean)
 
 This parameter lets you use a YouTube player that does not show a YouTube logo.
 Even when this option is enabled, a small YouTube text label will still display in
 the upper-right corner of a paused video when the user's mouse pointer hovers over
 the player. The default value is `false`.
 
-#### `opts.related` (boolean)
+- `opts.related` (boolean)
 
 This parameter indicates whether the player should show related videos from the
 same channel (`false`) or from any channel (`true`) when playback of the video
 ends. The default value is `true`.
 
-#### `opts.timeupdateFrequency` (number)
+- `opts.timeupdateFrequency` (number)
 
 The time between `onTimeupdate` callbacks, in milliseconds. Default is `1000`.
 
@@ -111,11 +119,11 @@ and
 [`playerVars` parameters](https://developers.google.com/youtube/player_parameters#Parameters)
 for additional documentation about these parameters.
 
-#### `opts.playsInline` (boolean)
+- `opts.playsInline` (boolean)
 
 This parameter controls whether videos play inline or fullscreen in an HTML5 player on iOS. Default is `true`.
 
-#### `opts.start` (number)
+- `opts.start` (number)
 
 This parameter causes the player to begin playing the video at the given number
 of seconds from the start of the video. The parameter value is a positive integer.
@@ -123,11 +131,13 @@ Note that the player will look for the closest keyframe to the time you specify.
 This means that sometimes the play head may seek to just before the requested time,
 usually no more than around two seconds. Default is `0`.
 
-#### `opts.host` (string)
+- `opts.host` (string)
 
 This parameter controls the hostname that videos are loaded from. Set to `'https://www.youtube-nocookie.com'` for enhanced privacy. The default value is `'https://youtube.com'`.
 
-### `player.load(videoId, [autoplay, [start]])`
+### `player` object API
+
+- `player.load(videoId, [autoplay, [start]])`
 
 This function loads the specified `videoId`. An example of a `videoId` is
 `'GKSRyLdjsPA'`.
@@ -139,15 +149,15 @@ then the video will start from the closest keyframe to the specified time.
 
 This should be the first function called on a new `Player` instance.
 
-### `player.play()`
+- `player.play()`
 
 Plays the currently loaded video.
 
-### `player.pause()`
+- `player.pause()`
 
 Pauses the currently loaded video.
 
-### `player.stop()`
+- `player.stop()`
 
 Stops and cancels loading of the current video. This function should be reserved
 for rare situations when you know that the user will not be watching additional
@@ -155,7 +165,7 @@ video in the player. If your intent is to pause the video, you should just call
 `pause()`. If you want to change the video that the player is playing,
 you can call `load()` without calling `stop()` first.
 
-### `player.seek(seconds)`
+- `player.seek(seconds)`
 
 Seeks to a specified time in the video. If the player is paused when the function
 is called, it will remain paused. If the function is called from another state
@@ -163,38 +173,38 @@ is called, it will remain paused. If the function is called from another state
 advance to the closest keyframe before that time unless the player has already
 downloaded the portion of the video to which the user is seeking.
 
-### `player.setVolume(volume)`
+- `player.setVolume(volume)`
 
 Sets the volume. Accepts an integer between `0` and `100`.
 
-### `player.getVolume()`
+- `player.getVolume()`
 
 Returns the player's current volume, an integer between `0` and `100`. Note that
 `getVolume()` will return the volume even if the player is muted.
 
-### `player.mute()`
+- `player.mute()`
 
 Mutes the player.
 
-### `player.unMute()`
+- `player.unMute()`
 
 Unmutes the player.
 
-### `player.isMuted()`
+- `player.isMuted()`
 
 Returns true if the player is muted, false if not.
 
-### `player.setSize(width, height)`
+- `player.setSize(width, height)`
 
 Sets the size in pixels of the `<iframe>` that contains the player.
 
-### `player.setPlaybackRate(rate)`
+- `player.setPlaybackRate(rate)`
 
 This function sets the suggested playback rate for the current video. If the
 playback rate changes, it will only change for the video that is already being
 played. Calling `load()` will reset the playback rate to 1.
 
-### `player.setPlaybackQuality(suggestedQuality)`
+- `player.setPlaybackQuality(suggestedQuality)`
 
 This function sets the suggested video quality for the current video. The function causes the video to reload at its current position in the new quality. If the playback quality does change, it will only change for the video being played. Calling this function does not guarantee that the playback quality will actually change. However, if the playback quality does change, the `'playbackqualitychange'` event will fire, and your code should respond to the event rather than the fact that it called the `setPlaybackQuality` function.
 
@@ -202,13 +212,13 @@ The `suggestedQuality` parameter value can be `'small'`, `'medium'`, `'large'`, 
 
 If you call the `setPlaybackQuality` function with a `suggestedQuality` level that is not available for the video, then the quality will be set to the next lowest level that is available. In addition, setting `suggestedQuality` to a value that is not a recognized quality level is equivalent to setting `suggestedQuality` to `'default'`.
 
-### `player.getPlaybackRate()`
+- `player.getPlaybackRate()`
 
 This function retrieves the playback rate of the currently playing video. The
 default playback rate is `1`, which indicates that the video is playing at normal
 speed. Playback rates may include values like `0.25`, `0.5`, `1`, `1.5`, and `2`.
 
-### `player.getAvailablePlaybackRates()`
+- `player.getAvailablePlaybackRates()`
 
 This function returns the set of playback rates in which the current video is
 available. The default value is `1`, which indicates that the video is playing in
@@ -218,44 +228,48 @@ The function returns an array of numbers ordered from slowest to fastest playbac
 speed. Even if the player does not support variable playback speeds, the array
 should always contain at least one value (`1`).
 
-### `player.getDuration()`
+- `player.getDuration()`
 
 Returns the duration in seconds of the currently playing video. Note that
 `getDuration()` will return 0 until the video's metadata is loaded, which normally
 happens just before the video starts playing.
 
-### `player.getProgress()`
+- `player.getProgress()`
 
 Returns a number between `0` and `1` that specifies the percentage of the video
 that the player shows as buffered.
 
-### `player.getState()`
+- `player.getState()`
 
 Returns the state of the player. Possible values are: `'unstarted'`, `'ended'`,
 `'playing'`, `'paused'`, `'buffering'`, or `'cued'`.
 
-### `player.getCurrentTime()`
+- `player.getCurrentTime()`
 
 Returns the elapsed time in seconds since the video started playing.
 
-### `player.destroy()`
+- `player.getVideoTitle()`
+
+Returns the video title.
+
+- `player.destroy()`
 
 Removes the `<iframe>` containing the player and cleans up all resources.
 
-### `player.destroyed` (boolean)
+- `player.destroyed` (boolean)
 
 Returns `true` if `destroy()` has been called on the player.
 
-### `player.videoId` (string)
+- `player.videoId` (string)
 
 Returns the currently loaded video ID, i.e. what was passed to `load()`.
 
-### `player.on('error', (err) => {})`
+- `player.on('error', (err) => {})`
 
 This event fires if a fatal error occurs in the player. This does not include
 videos that fail to play, for whatever reason.
 
-### `player.on('unplayable', (videoId) => {})`
+- `player.on('unplayable', (videoId) => {})`
 
 This event fires if the YouTube player cannot play the given video. This is not a
 fatal error. This event is reported separately from the `'error'` event so
@@ -272,22 +286,22 @@ Possible reasons for this error:
 - The request contains an invalid parameter value. For example, this error occurs
   if you specify a videoId that does not have 11 characters, or if the videoId contains invalid characters, such as exclamation points or asterisks.
 
-### `player.on('timeupdate', (seconds) => {})`
+- `player.on('timeupdate', (seconds) => {})`
 
 This event fires when the time indicated by the `getCurrentTime()` method has been
 updated.
 
-### `player.on('unstarted', () => {})`
+- `player.on('unstarted', () => {})`
 
-### `player.on('ended', () => {})`
+- `player.on('ended', () => {})`
 
-### `player.on('playing', () => {})`
+- `player.on('playing', () => {})`
 
-### `player.on('paused', () => {})`
+- `player.on('paused', () => {})`
 
-### `player.on('buffering', () => {})`
+- `player.on('buffering', () => {})`
 
-### `player.on('cued', () => {})`
+- `player.on('cued', () => {})`
 
 These events fire when the player enters the respective state. These event names
 are the same as the possible return values from `player.getState()`.
@@ -295,12 +309,12 @@ are the same as the possible return values from `player.getState()`.
 When the player first loads a video, it will broadcast an `unstarted` event. When a
 video is cued and ready to play, the player will broadcast a `cued` event.
 
-### `player.on('playbackQualityChange', (quality) => {})`
+- `player.on('playbackQualityChange', (quality) => {})`
 
 This event fires whenever the video playback quality changes. Possible
 values are: 'small', 'medium', 'large', 'hd720', 'hd1080', 'highres'.
 
-### `player.on('playbackRateChange', (playbackRate) => {})`
+- `player.on('playbackRateChange', (playbackRate) => {})`
 
 This event fires whenever the video playback rate changes.
 
